@@ -167,7 +167,7 @@ void _nextKeyOrMouseEvent(rogueEvent *returnEvent, __unused boolean textInput, b
                         break;
                 }
 
-                CGPoint coords = [CellCoordsUtils getCellCoordsAt:touch.location];
+                CGPoint coords = [CellCoordsUtils getCellCoordsAt:touch.location doRound:true];
 
                 returnEvent->param1 = short(coords.x);
                 returnEvent->param2 = short(coords.y);

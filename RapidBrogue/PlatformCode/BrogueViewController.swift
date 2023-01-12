@@ -54,12 +54,17 @@ extension UIScreen {
 }
 
 class CellCoordsUtils : NSObject {
-    @objc public static func getCellCoords(at point: CGPoint) -> CGPoint {
+    @objc public static func getCellCoords(at point: CGPoint, doRound: Bool = true) -> CGPoint {
         let insets = UIApplication.shared.keyWindow!.safeAreaInsets
-        let cellx = Int(CGFloat(COLS) * (point.x - insets.left) / (UIScreen.main.bounds.size.width - insets.left - insets.right))
-        let celly = Int(CGFloat(ROWS) * point.y / (UIScreen.safeBounds.size.height))
+        var cellX = CGFloat(COLS) * (point.x - insets.left) / (UIScreen.main.bounds.size.width - insets.left - insets.right)
+        var cellY = CGFloat(ROWS) * point.y / UIScreen.safeBounds.size.height
 
-        return CGPoint(x: cellx, y: celly)
+        if (doRound) {
+            cellX = floor(cellX)
+            cellY = floor(cellY)
+        }
+
+        return CGPoint(x: cellX, y: cellY)
     }
 }
 
@@ -698,24 +703,22 @@ final class SKMagView: SKView {
         var position: CGPoint {
             let screenScale = UIScreen.main.scale
             let magnificationOffset = magnification + 1
+            let newPoint = CellCoordsUtils.getCellCoords(at: point, doRound: false)
 
             // take the touch point and figure out how far off from 0,0 inside the node we are. Magical fudge of magoffset ensure we move smoothly from one cell to the next.
-            let xMouseOffset = point.x - currentCellXY.x * cellSize.width / screenScale * magnificationOffset
-            let yMouseOffset = point.y + currentCellXY.y * cellSize.height / screenScale * magnificationOffset
+            let xMouseOffset = (newPoint.x - currentCellXY.x) * cellSize.width / screenScale * magnificationOffset
+            let yMouseOffset = (newPoint.y - currentCellXY.y) * cellSize.height / screenScale * magnificationOffset
 
             let middleCellPosition = cells[rows - 1][cols].position
 
             // center cell should be in the middle of the magnifying glass view. As touches move so does the view need to move to follow.
-            let xFinalOffset = middleCellPosition.x - cellSize.width / 2 / magnificationOffset// + xMouseOffset
-            let yFinalOffset = middleCellPosition.y - cellSize.height * (1 - 1 / 2 / magnificationOffset)// - yMouseOffset
+            let xFinalOffset = middleCellPosition.x - cellSize.width / magnificationOffset + xMouseOffset
+            let yFinalOffset = middleCellPosition.y - cellSize.height / magnificationOffset - yMouseOffset
             return CGPoint(x: -xFinalOffset, y: -yFinalOffset)
         }
 
         // offset needs to be offset by the appropriate cellsize.
         parentNode.position = position
-//        let middleCellPosition = cells[rows][cols].position
-//        parentNode.position = middleCellPosition
-//        parentNode.position = .zero
 
         return cells.flatMap { $0 }
     }
