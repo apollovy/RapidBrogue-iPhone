@@ -56,7 +56,7 @@ extension UIScreen {
 class CellCoordsUtils : NSObject {
     @objc public static func getCellCoords(at point: CGPoint) -> CGPoint {
         let insets = UIApplication.shared.keyWindow!.safeAreaInsets
-        let cellx = Int(CGFloat(COLS) * (point.x - insets.left) / (UIScreen.main.bounds.size.width - insets.left - insets.right)) - 1
+        let cellx = Int(CGFloat(COLS) * (point.x - insets.left) / (UIScreen.main.bounds.size.width - insets.left - insets.right))
         let celly = Int(CGFloat(ROWS) * point.y / (UIScreen.safeBounds.size.height))
 
         return CGPoint(x: cellx, y: celly)
@@ -703,7 +703,7 @@ final class SKMagView: SKView {
             let xMouseOffset = point.x - currentCellXY.x * cellSize.width / screenScale * magnificationOffset
             let yMouseOffset = point.y + currentCellXY.y * cellSize.height / screenScale * magnificationOffset
 
-            let middleCellPosition = cells[rows][cols].position
+            let middleCellPosition = cells[rows - 1][cols].position
 
             // center cell should be in the middle of the magnifying glass view. As touches move so does the view need to move to follow.
             let xFinalOffset = middleCellPosition.x - cellSize.width / 2 / magnificationOffset// + xMouseOffset

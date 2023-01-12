@@ -169,7 +169,7 @@ void _nextKeyOrMouseEvent(rogueEvent *returnEvent, __unused boolean textInput, b
 
                 CGPoint coords = [CellCoordsUtils getCellCoordsAt:touch.location];
 
-                returnEvent->param1 = short(coords.x + 1);
+                returnEvent->param1 = short(coords.x);
                 returnEvent->param2 = short(coords.y);
                 returnEvent->controlKey = 0;
                 returnEvent->shiftKey = 0;
