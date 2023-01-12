@@ -34,9 +34,6 @@ private func synchronized<T>(_ lock: Any, _ body: () throws -> T) rethrows -> T 
     return try body()
 }
 
-fileprivate let COLS = 100
-fileprivate let ROWS = 34
- 
  // Because of a main thread issue we need to set this.
  fileprivate var kOffset: CGFloat = 0
 
@@ -248,7 +245,7 @@ extension BrogueViewController {
         guard dContainerView.hitTest(touches.first!.location(in: dContainerView), with: event) == nil else { return }
         
         for touch in touches {
-            let location = touch.location(in: skViewPort)
+            let location = touch.location(in: view)
             // handle double tap on began.
             if touch.tapCount >= 2 && pointIsInPlayArea(point: location) {
                 // double tap in the play area
@@ -270,7 +267,7 @@ extension BrogueViewController {
         guard dContainerView.hitTest(touches.first!.location(in: dContainerView), with: event) == nil else { return }
         
         if let touch = touches.first {
-            let location = touch.location(in: skViewPort)
+            let location = touch.location(in: view)
             let brogueEvent = UIBrogueTouchEvent(phase: touch.phase, location: location)
 
             addTouchEvent(event: brogueEvent)
@@ -284,7 +281,7 @@ extension BrogueViewController {
         guard dContainerView.hitTest(touches.first!.location(in: dContainerView), with: event) == nil else { return }
         
         if let touch = touches.first {
-            let location = touch.location(in: skViewPort)
+            let location = touch.location(in: view)
             
             if pointIsInSideBar(point: location) && lastBrogueGameEvent != .openedInventory {
                 // side bar
@@ -309,7 +306,7 @@ extension BrogueViewController {
     
     fileprivate func pointIsInPlayArea(point: CGPoint) -> Bool {
         let cellCoord = getCellCoords(at: point)
-        if cellCoord.x > 20 && cellCoord.y < 32 && cellCoord.y > 3 {
+        if cellCoord.x > CGFloat(STAT_BAR_WIDTH) && cellCoord.y < CGFloat(ROWS - 2) && cellCoord.y > CGFloat(MESSAGE_LINES) {
             return true
         }
         
@@ -318,7 +315,7 @@ extension BrogueViewController {
     
     private func pointIsInSideBar(point: CGPoint) -> Bool {
         let cellCoord = getCellCoords(at: point)
-        if cellCoord.x <= 20 {
+        if cellCoord.x <= CGFloat(STAT_BAR_WIDTH) {
             return true
         }
         

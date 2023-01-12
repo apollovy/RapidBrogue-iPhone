@@ -151,8 +151,8 @@ typedef long long fixpt;
 #define MAX_MESSAGE_REPEATS     100
 
 // Size of the entire terminal window. These need to be hard-coded here and in Viewport.h
-#define COLS                    100
-#define ROWS                    (31 + MESSAGE_LINES)
+#define COLS                    80
+#define ROWS                    (25 + MESSAGE_LINES)
 
 typedef struct pos {
     short x;

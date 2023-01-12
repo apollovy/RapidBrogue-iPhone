@@ -542,7 +542,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = J33P3R33M4;
+				DEVELOPMENT_TEAM = 3NJUD9MLAB;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RapidBrogue/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -559,9 +559,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1102;
-				PRODUCT_BUNDLE_IDENTIFIER = md.taylor.RapidBrogue;
+				PRODUCT_BUNDLE_IDENTIFIER = tk.apollov.RapidBrogue;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "./RapidBrogue/PlatformCode/RapidBrogue-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -574,7 +575,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = J33P3R33M4;
+				DEVELOPMENT_TEAM = 3NJUD9MLAB;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RapidBrogue/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -591,9 +592,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1102;
-				PRODUCT_BUNDLE_IDENTIFIER = md.taylor.RapidBrogue;
+				PRODUCT_BUNDLE_IDENTIFIER = tk.apollov.RapidBrogue;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "./RapidBrogue/PlatformCode/RapidBrogue-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
