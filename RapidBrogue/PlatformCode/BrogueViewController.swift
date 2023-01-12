@@ -53,11 +53,14 @@ extension UIScreen {
     }
 }
 
-fileprivate func getCellCoords(at point: CGPoint) -> CGPoint {
-    let cellx = Int(CGFloat(COLS) * point.x / UIScreen.main.bounds.size.width)
-    let celly = Int(CGFloat(ROWS) * point.y / (UIScreen.safeBounds.size.height))
-    
-    return CGPoint(x: cellx, y: celly)
+class CellCoordsUtils : NSObject {
+    @objc public static func getCellCoords(at point: CGPoint) -> CGPoint {
+        let insets = UIApplication.shared.keyWindow!.safeAreaInsets
+        let cellx = Int(CGFloat(COLS) * (point.x - insets.left) / (UIScreen.main.bounds.size.width - insets.left - insets.right)) - 1
+        let celly = Int(CGFloat(ROWS) * point.y / (UIScreen.safeBounds.size.height))
+
+        return CGPoint(x: cellx, y: celly)
+    }
 }
 
 // TODO: switch to Character
@@ -305,7 +308,7 @@ extension BrogueViewController {
     }
     
     fileprivate func pointIsInPlayArea(point: CGPoint) -> Bool {
-        let cellCoord = getCellCoords(at: point)
+        let cellCoord = CellCoordsUtils.getCellCoords(at: point)
         if cellCoord.x > CGFloat(STAT_BAR_WIDTH) && cellCoord.y < CGFloat(ROWS - 2) && cellCoord.y > CGFloat(MESSAGE_LINES) {
             return true
         }
@@ -314,7 +317,7 @@ extension BrogueViewController {
     }
     
     private func pointIsInSideBar(point: CGPoint) -> Bool {
-        let cellCoord = getCellCoords(at: point)
+        let cellCoord = CellCoordsUtils.getCellCoords(at: point)
         if cellCoord.x <= CGFloat(STAT_BAR_WIDTH) {
             return true
         }
@@ -598,7 +601,7 @@ final class SKMagView: SKView {
     var viewToMagnify: SKViewPort?
     // TODO: magic numbers
     private var size = CGSize(width: 110, height: 110)
-    private var offset = CGSize(width: 60, height: -27)
+    private var offset = CGSize(width: 100, height: -20)
     private let parentNode: SKNode
     private var cells: [Cell]? {
         willSet {
@@ -655,8 +658,8 @@ final class SKMagView: SKView {
         guard let viewToMagnify = viewToMagnify else { return [Cell]() }
        
         let magnification: CGFloat = 1.0
-        let currentCellXY = getCellCoords(at: point)
-        let rows = 3 // opposite/flipped
+        let currentCellXY = CellCoordsUtils.getCellCoords(at: point)
+        let rows = 2
         let cols = 2
         
         let cells: [[Cell]] = {
@@ -682,34 +685,38 @@ final class SKMagView: SKView {
             
             return cells
         }()
-        
+
         let cellSize = cells[0][0].size
         
         // layout cells
         for x in 0...rows * 2 {
             for y in 0...cols * 2 {
-                cells[x][y].position = CGPoint(x: (CGFloat(x) * cellSize.width), y: CGFloat(rows - y - 1) * cellSize.height)
+                cells[x][y].position = CGPoint(x: (CGFloat(x) * cellSize.width), y: CGFloat(-y) * cellSize.height)
             }
         }
-        
+
         var position: CGPoint {
             let screenScale = UIScreen.main.scale
             let magnificationOffset = magnification + 1
-            
+
             // take the touch point and figure out how far off from 0,0 inside the node we are. Magical fudge of magoffset ensure we move smoothly from one cell to the next.
-            let xMouseOffset = (point.x - (currentCellXY.x * (viewToMagnify.rogueScene.cells[0][0].size.width / screenScale))) * magnificationOffset
-            let yMouseOffset = (point.y - (currentCellXY.y * (viewToMagnify.rogueScene.cells[0][0].size.height / screenScale))) * magnificationOffset
-            
-            // center cell is 3,2 and should be in the middle of the magnifying glass view. As touches move so does the view need to move to follow.
-            let xFinalOffset = ((CGFloat(rows) * cellSize.width - self.size.width/2) + cellSize.width/2) + xMouseOffset
-            let yFinalOffset = ((CGFloat(rows - cols - 1) * cellSize.height - self.size.height / 2) + cellSize.height / 2) - yMouseOffset
-            
-            return CGPoint(x: -xFinalOffset + cellSize.width / 2, y: -yFinalOffset - cellSize.height / 2)
+            let xMouseOffset = point.x - currentCellXY.x * cellSize.width / screenScale * magnificationOffset
+            let yMouseOffset = point.y + currentCellXY.y * cellSize.height / screenScale * magnificationOffset
+
+            let middleCellPosition = cells[rows][cols].position
+
+            // center cell should be in the middle of the magnifying glass view. As touches move so does the view need to move to follow.
+            let xFinalOffset = middleCellPosition.x - cellSize.width / 2 / magnificationOffset// + xMouseOffset
+            let yFinalOffset = middleCellPosition.y - cellSize.height * (1 - 1 / 2 / magnificationOffset)// - yMouseOffset
+            return CGPoint(x: -xFinalOffset, y: -yFinalOffset)
         }
-        
+
         // offset needs to be offset by the appropriate cellsize.
         parentNode.position = position
-        
+//        let middleCellPosition = cells[rows][cols].position
+//        parentNode.position = middleCellPosition
+//        parentNode.position = .zero
+
         return cells.flatMap { $0 }
     }
 }

@@ -128,9 +128,6 @@ boolean _pauseForMilliseconds(short milliseconds) {
 }
 
 void _nextKeyOrMouseEvent(rogueEvent *returnEvent, __unused boolean textInput, boolean colorsDance) {
-	short x, y;
-    float width = [[UIScreen mainScreen] bounds].size.width;
-    float height = [UIScreen safeBounds].size.height;
     for(;;) {
         // we should be ok to block here. We don't seem to call pauseForMilli and this at the same time
         // 60Hz
@@ -169,12 +166,11 @@ void _nextKeyOrMouseEvent(rogueEvent *returnEvent, __unused boolean textInput, b
                     default:
                         break;
                 }
-                
-                x = COLS * float(touch.location.x) / width + 1;
-                y = ROWS * float(touch.location.y) / height;
-                
-                returnEvent->param1 = x;
-                returnEvent->param2 = y;
+
+                CGPoint coords = [CellCoordsUtils getCellCoordsAt:touch.location];
+
+                returnEvent->param1 = short(coords.x + 1);
+                returnEvent->param2 = short(coords.y);
                 returnEvent->controlKey = 0;
                 returnEvent->shiftKey = 0;
                 
