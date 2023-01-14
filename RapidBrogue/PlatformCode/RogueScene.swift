@@ -137,9 +137,9 @@ fileprivate extension RogueScene {
          return textureMap[glyph] ?? addTexture(glyph: glyph)
     }
 
-    
+
     func createTextureFromGlyph(glyph: String, size: CGSize) -> SKTexture {
-                
+
         enum GlyphType {
             case letter
             case scroll
@@ -152,28 +152,38 @@ fileprivate extension RogueScene {
             case omega
             case wall
             case monster
-            
+            case letterWithBottomPart
+
             var fontName: String { "Brogue" }
             
             var scaleFactor: CGFloat {
                 switch self {
                 case .weapon :
                     return 1.2
-                    
+
                 case .scroll, .ring:
                     return 1.2
-                
+
                 case .foliage, .charm:
                     return 1.1
-                    
+
                 case .wall:
                     return 1.1
-                    
+
                 case .monster:
                     return 1.4
-                    
+
                 default:
                     return 1
+                }
+            }
+
+            var baselineOffset: NSNumber {
+                switch self {
+                case .letterWithBottomPart:
+                    return 8
+                default:
+                    return 0
                 }
             }
             
@@ -186,6 +196,8 @@ fileprivate extension RogueScene {
                 // it makes tExT LOOk liKe THiS so we're defining characters
                 // that will be rendered at the same lineheight
                 switch (glyph) {
+                case "g", "j", "p", "q", "y":
+                    self = .letterWithBottomPart
                 case "a"..."z",
                      "A"..."Z",
                      "0"..."9",
@@ -243,7 +255,8 @@ fileprivate extension RogueScene {
             let font = UIFont(name: glyphType.fontName, size: fontSize * scaleFactor)!
             let fontAttributes = [
                 convertFromNSAttributedStringKey(NSAttributedString.Key.font): font,
-                convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): SKColor.white // White so we can blend it
+                convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): SKColor.white, // White so we can blend it
+                convertFromNSAttributedStringKey(NSAttributedString.Key.baselineOffset): glyphType.baselineOffset,
             ]
             
             let realBounds: CGRect = glyph.boundingRect(with: CGSize(), options: glyphType.drawingOptions, attributes: convertToOptionalNSAttributedStringKeyDictionary(fontAttributes), context: nil)

@@ -471,7 +471,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/bob/Production/RapidBrogue/RapidBrogue/PlatformCode/RapidBrogue-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "./RapidBrogue/PlatformCode/RapidBrogue-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = iPad;
 			};
@@ -528,7 +528,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/bob/Production/RapidBrogue/RapidBrogue/PlatformCode/RapidBrogue-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "./RapidBrogue/PlatformCode/RapidBrogue-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = iPad;
 				VALIDATE_PRODUCT = YES;
