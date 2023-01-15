@@ -588,7 +588,9 @@ extension BrogueViewController: UITextFieldDelegate {
             case .keyboardDeleteOrBackspace, .keyboardDeleteForward :
                 sendKey = kDelKey
             default :
-                sendKey = key.characters.ascii         // DON'T ignore modifiers, to allow shifted letters
+                sendKey = key.characters.count != 0
+                ? key.characters.ascii
+                : kSpaceKey // DON'T ignore modifiers, to allow shifted letters
             }
              
             if let eventKey = sendKey {
