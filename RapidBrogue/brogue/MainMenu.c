@@ -274,9 +274,13 @@ const char title[MENU_TITLE_HEIGHT][MENU_TITLE_WIDTH+1] = {
         for (i=0; i<MENU_TITLE_WIDTH; i++) {
             for (j=0; j<MENU_TITLE_HEIGHT; j++) {
                 if (title[j][i] != ' ') {
-                    colors[(COLS - MENU_TITLE_WIDTH)/2 + i + MENU_TITLE_OFFSET_X][(ROWS - MENU_TITLE_HEIGHT)/2 + j + MENU_TITLE_OFFSET_Y] = &flameTitleColor;
-                    colorSourceCount++;
-                    mask[(COLS - MENU_TITLE_WIDTH)/2 + i + MENU_TITLE_OFFSET_X][(ROWS - MENU_TITLE_HEIGHT)/2 + j + MENU_TITLE_OFFSET_Y] = 100;
+                    int x = (COLS - MENU_TITLE_WIDTH)/2 + i + MENU_TITLE_OFFSET_X;
+                    int y = (ROWS - MENU_TITLE_HEIGHT)/2 + j + MENU_TITLE_OFFSET_Y;
+                    if ((x >= 0) && (y >= 0) && x < COLS && y < ROWS) {
+                        colors[x][y] = &flameTitleColor;
+                        colorSourceCount++;
+                        mask[x][y] = 100;
+                    }
                 }
             }
         }
