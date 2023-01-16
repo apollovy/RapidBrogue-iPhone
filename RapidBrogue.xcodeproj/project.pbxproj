@@ -457,6 +457,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
+					"BROGUE_ASSERTS=1",
 				);
 				GCC_SHORT_ENUMS = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

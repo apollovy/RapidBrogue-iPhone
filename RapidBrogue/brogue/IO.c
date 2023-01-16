@@ -2835,7 +2835,7 @@ boolean getInputTextString(char *inputText,
 
     do {
         printString(suffix, charNum + x, y, &gray, &black, 0);
-        plotCharWithColor((suffix[0] ? suffix[0] : ' '), x + charNum, y, &black, &white);
+        plotCharWithColor((suffix[0] ? suffix[0] : ' '), min(x + charNum, ROWS-1), y, &black, &white);
         
         requestKeyboardInput(defaultEntry);     // BT: put a keyboard on iPad screen
         

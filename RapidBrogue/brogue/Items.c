@@ -2808,6 +2808,8 @@ char displayInventory(unsigned short categoryMask,
     }
     // Now all of the non-equipped items.
     for (theItem = packItems->nextItem; theItem != NULL; theItem = theItem->nextItem) {
+        if (itemNumber >= DROWS)  // don't go beyond the bottom line
+            break;
         if (!(theItem->flags & ITEM_EQUIPPED)) {
             itemList[itemNumber] = theItem;
             itemNumber++;
@@ -3075,7 +3077,7 @@ char displayInventory(unsigned short categoryMask,
         }
     } while (repeatDisplay); // so you can get info on multiple items sequentially
 
-    overlayDisplayBuffer(rbuf, NULL); // restore the original screen
+//    overlayDisplayBuffer(rbuf, NULL); // restore the original screen
 
     // Seth: BT
     setBrogueGameEvent(CBrogueGameEventClosedInventory);
