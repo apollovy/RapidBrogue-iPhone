@@ -4258,7 +4258,10 @@ void printDiscoveries(short category, short count, unsigned short itemCharacter,
 
         upperCase(buf);
         strcat(buf, " ");
-        printString(buf, x + 2, y + i, theColor, &black, dbuf);
+        int newX = x + 2, newY = y + i;
+        if (newX < COLS && newY < ROWS) {
+            printString(buf, newX, newY, theColor, &black, dbuf);
+        }
     }
 }
 
