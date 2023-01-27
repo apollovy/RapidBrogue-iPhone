@@ -6193,7 +6193,7 @@ void throwCommand(item *theItem, boolean autoThrow) {
     //
     // Ask location to throw
     //
-    sprintf(buf, "Throw %s %s where? (<hjklyubn>, mouse, or <tab>)",
+    snprintf(buf, COLS, "Throw %s %s where? (<hjklyubn>, mouse, or <tab>)",
             (theItem->quantity > 1 ? "a" : "your"),
             theName);
     temporaryMessage(buf, REFRESH_SIDEBAR);
