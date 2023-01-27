@@ -2855,10 +2855,12 @@ boolean getInputTextString(char *inputText,
             }
 
             inputText[charNum] = keystroke;
-            plotCharWithColor(keystroke, x + charNum, y, &white, &black);
-            printString(suffix, charNum + x + 1, y, &gray, &black, 0);
-            if (charNum < maxLength) {
-                charNum++;
+            if ((x + charNum) < COLS) {
+                plotCharWithColor(keystroke, x + charNum, y, &white, &black);
+                printString(suffix, charNum + x + 1, y, &gray, &black, 0);
+                if (charNum < maxLength) {
+                    charNum++;
+                }
             }
         }
 #ifdef USE_CLIPBOARD
