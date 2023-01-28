@@ -401,7 +401,7 @@ item *placeItem(item *theItem, short x, short y) {
                 refreshDungeonCell(x, y);
             }
             itemName(theItem, theItemName, false, false, NULL);
-            sprintf(buf, "a pressure plate clicks underneath the %s!", theItemName);
+            snprintf(buf, DCOLS, "a pressure plate clicks underneath the %s!", theItemName);
             message(buf, REQUIRE_ACKNOWLEDGMENT);
         }
         for (layer = 0; layer < NUMBER_TERRAIN_LAYERS; layer++) {
